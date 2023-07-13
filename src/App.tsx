@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+
+  const [file, setFile] = useState<File | null>(null);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setFile(event.target.files[0]);
+    }
+  };
+
+  const handleUpload = async () => {
+    if (file) {
+      // Upload the file to the server
+      const formData = new FormData();
+      formData.append('file', file);
+      const response = await fetch('/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      // Local Resource URL
+      // Set the URL of the uploaded file
+      setFileUrl(data.filePath);
+      console.log(data.filePath);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div>
+      <input type="file" accept=".pdf" onChange={handleFileChange} />
+      <button onClick={handleUpload}>Upload</button>
+      {fileUrl && <embed type='application/pdf' src={fileUrl} width="100%" height="600px" />}
+    </div>
+  );
+};
 
-export default App
+export default App;
