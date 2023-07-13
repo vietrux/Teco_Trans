@@ -8,7 +8,7 @@ const app = express();
 
 const storage = multer.diskStorage({
     destination: (_req, _file, cb) => {
-        cb(null, path.join(__dirname, 'public', 'uploads'));
+        cb(null, path.join(__dirname, '..', 'public', 'uploads'));
     },
     filename: (_req, file, cb) => {
         cb(null, uuidv4() + path.extname(file.originalname));
