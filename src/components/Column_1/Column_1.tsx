@@ -11,16 +11,20 @@ type TabsList = {
   body: ReactComponentElement<any>
 }
 
-function Column_1() {
+type Column_1Props = {
+  handleTranslate: Function
+}
+
+function Column_1(props: Column_1Props) {
   const [tabsList, setTabsList] = useState<TabsList[]>([])
   const [isPopUpOpen, setIsPopUpOpen] = useState(true)
 
   function addNewTab(type: string = "url" || "file") {
     const newTab: TabsList = {
       name: "New tab",
-      id: Date.now()+Math.random(),
+      id: Date.now() + Math.random(),
       active: true,
-      body: type === "url" ? <InputUrl /> : <InputFile />
+      body: type === "url" ? <InputUrl handleTranslate={props.handleTranslate} /> : <InputFile />
     }
     setTabsList((prev: TabsList[]) => {
       return prev.map((item: TabsList) => {

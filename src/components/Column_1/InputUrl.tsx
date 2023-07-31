@@ -21,15 +21,22 @@ function IframeRender(props: IframeRenderProps) {
     </>
   )
 }
-
-function InputUrl() {
+type InputUrlProps = {
+  handleTranslate: Function
+}
+type TranslateContent = {
+  id: number,
+  content: string,
+  translate: string
+}
+function InputUrl(props: InputUrlProps) {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [url, setUrl] = useState("")
   const [iframeurl, setIframeurl] = useState("")
   const [listurl, setListurl] = useState([
     {
       id: Date.now() + Math.random(),
-      url: "https://www.google.com/",
+      url: "https://thanhnien.vn",
       updateTime: Date.now()
 
     },
@@ -59,7 +66,15 @@ function InputUrl() {
   }
 
   function setSelection() {
-    console.log(iframeRef.current?.contentWindow?.getSelection()?.toString())
+    var content = iframeRef.current?.contentWindow?.getSelection()?.toString()
+
+    var translate = content?.split("").reverse().join("")
+    var transObj = {
+      id: Date.now() + Math.random(),
+      content,
+      translate
+    } as TranslateContent
+    props.handleTranslate(transObj)
   }
 
   function deleteUrl(id: string) {

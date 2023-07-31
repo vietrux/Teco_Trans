@@ -1,13 +1,24 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels"
 import { ChakraProvider } from '@chakra-ui/react'
 import styles from './App.module.css'
 
 import Column_1 from "./components/Column_1/Column_1"
+import Column_2 from "./components/Column_2/Column_2"
+
+
+type TranslateContent = {
+	id: number,
+	content: string,
+	translate: string
+}
+
+
 
 function App() {
 	const [isCollapse_1, setIsCollapse_1] = useState(true)
 	const [isCollapse_2, setIsCollapse_2] = useState(true)
+	const [translateContent, setTranslateContent] = useState({} as TranslateContent)
 
 	function arrowIcon(state: boolean) {
 		if (state) {
@@ -16,6 +27,7 @@ function App() {
 			return <i className="fa-regular fa-arrow-left"></i>
 		}
 	}
+
 	return (
 		<ChakraProvider>
 			<PanelGroup direction="horizontal">
@@ -26,15 +38,17 @@ function App() {
 					order={1}
 					className={styles.Panel}
 					style={
-						isCollapse_1 ? { 
+						isCollapse_1 ? {
 							display: "block",
 							overflow: "hidden"
-					 } : { display: "none" }
-						
+						} : { display: "none" }
+
 
 					}
 				>
-					<Column_1 />
+					<Column_1
+						handleTranslate={setTranslateContent}
+					/>
 				</Panel>
 				<PanelResizeHandle
 					className={styles.PanelResizeHandle}
@@ -54,7 +68,7 @@ function App() {
 						onClick={() => setIsCollapse_2(!isCollapse_2)}>
 						{isCollapse_2 ? arrowIcon(isCollapse_2) : arrowIcon(isCollapse_2)}
 					</button>
-
+					<Column_2 data={translateContent} />
 				</Panel>
 
 				<PanelResizeHandle className={styles.PanelResizeHandle}

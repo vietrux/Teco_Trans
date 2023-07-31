@@ -1,0 +1,29 @@
+.container {
+  padding: 30px;
+  overflow: auto;
+  height: 100%;
+}
+
+.card {
+  display: flex;
+  padding: 10px;
+  margin: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.card_left {
+  padding: 10px;
+  margin-right: 5px;
+  width: 100%;
+  word-wrap: break-word;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.card_right {
+  padding: 10px;
+  margin-left: 5px;
+  width: 100%;
+  word-wrap: break-word;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
